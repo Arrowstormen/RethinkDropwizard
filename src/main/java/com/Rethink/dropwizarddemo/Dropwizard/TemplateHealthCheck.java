@@ -1,13 +1,14 @@
-package com.Rethink.dropwizarddemo;
+package com.Rethink.dropwizarddemo.Dropwizard;
 
+import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.health.HealthCheck;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TemplateHealthCheck extends HealthCheck {
-    private final ArrayList<Donor> defaultList;
+    private final List<Donor> defaultList;
 
-    public TemplateHealthCheck(ArrayList<Donor> defaultList) {
+    public TemplateHealthCheck(List<Donor> defaultList) {
         this.defaultList = defaultList;
     }
 

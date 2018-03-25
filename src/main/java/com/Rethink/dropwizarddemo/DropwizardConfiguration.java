@@ -1,15 +1,15 @@
 package com.Rethink.dropwizarddemo;
 
 
-import io.dropwizard.Configuration;
+import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.NotEmpty;
+import io.dropwizard.Configuration;
 
 import java.util.ArrayList;
 
 public class DropwizardConfiguration extends Configuration {
 
-    @NotEmpty
+    //@NotEmpty
     private ArrayList<Donor> defaultList = new ArrayList<Donor>();
 
     @JsonProperty

@@ -1,5 +1,6 @@
 package com.Rethink.dropwizarddemo;
 
+import com.Rethink.dropwizarddemo.Dropwizard.TemplateHealthCheck;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -23,7 +24,8 @@ public class DropwizardApplication extends Application<DropwizardConfiguration> 
     public void run(DropwizardConfiguration configuration,
                     Environment environment) {
         final DonorsResource resource = new DonorsResource(
-                configuration.getDefaultList()
+                configuration.getDefaultList(),
+                new DonorDAO()
         );
         final TemplateHealthCheck healthCheck =
                 new TemplateHealthCheck(configuration.getDefaultList());

@@ -1,28 +1,37 @@
 package com.Rethink.dropwizarddemo;
 
+import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.annotation.Timed;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.Optional;
+import java.util.List;
 
 @Path("/donors")
 @Produces(MediaType.APPLICATION_JSON)
 public class DonorsResource {
-    private final ArrayList<Donor> defaultList;
 
-    public DonorsResource(ArrayList<Donor> defaultList) {
-        this.defaultList = defaultList;
+    private DonorDAO dao;
+    private List<Donor> defaultList;
+
+    public DonorsResource(List<Donor> list, DonorDAO dao) {
+        this.dao = dao;
+        defaultList = list;
     }
 
     @GET
     @Timed
-    public ArrayList<Donor> GetAllDonors() {
-        return defaultList;
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Donor> getAllDonors() {
+        return dao.getAllDonors();
     }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Timed
+    public void CreateDonor(@Valid Donor donor) {
+        dao.createDonor(donor);
+    }
+
 }
