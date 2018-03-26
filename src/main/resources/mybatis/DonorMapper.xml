@@ -17,4 +17,13 @@
     <select id="getAll" resultType="com.Rethink.dropwizarddemo.POJO.Donor">
         SELECT * FROM Donor
     </select>
+
+    <update id="update" parameterType="int">
+
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM donor where id = #{id}
+    </delete>
+
 </mapper>

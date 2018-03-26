@@ -1,6 +1,8 @@
 package com.Rethink.dropwizarddemo;
 
-import com.Rethink.dropwizarddemo.Dropwizard.TemplateHealthCheck;
+import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.Health.TemplateHealthCheck;
+import com.Rethink.dropwizarddemo.resources.DonorsResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -21,16 +23,17 @@ public class DropwizardApplication extends Application<DropwizardConfiguration> 
     }
 
     @Override
-    public void run(DropwizardConfiguration configuration,
-                    Environment environment) {
-        final DonorsResource resource = new DonorsResource(
-                configuration.getDefaultList(),
+    public void run(DropwizardConfiguration configuration, Environment environment) {
+        // create Resouces
+        final DonorsResource donorResource = new DonorsResource(
                 new DonorDAO()
         );
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getDefaultList());
+
+        final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getDefaultList());
         environment.healthChecks().register("defaultList", healthCheck);
-        environment.jersey().register(resource);
+
+        // add resources
+        environment.jersey().register(donorResource);
     }
 
 }

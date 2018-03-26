@@ -1,4 +1,4 @@
-package com.Rethink.dropwizarddemo;
+package com.Rethink.dropwizarddemo.DAO;
 
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import org.apache.ibatis.io.Resources;
@@ -12,6 +12,9 @@ import java.util.List;
 
 
 public class DonorDAO {
+
+
+    // Constructor for dependency injection (sqlfactory)
 
     public static void createDonor(Donor donor) {
         Reader reader = null;
@@ -39,6 +42,7 @@ public class DonorDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sqlSessionFactory.openSession();
 
@@ -49,4 +53,31 @@ public class DonorDAO {
 
         return donorList;
     }
+
+    public List<Donor> deleteDonor(int i) {
+        Reader reader = null;
+        try {
+            reader = Resources.getResourceAsReader("mybatis/config.xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        List<Donor> donorList = session.selectList("DonorMapper.delete", i);
+
+        session.commit();
+        session.close();
+
+        return donorList;
+    }
+
+    /*
+
+    GET single
+    Update
+    Delete
+
+     */
 }

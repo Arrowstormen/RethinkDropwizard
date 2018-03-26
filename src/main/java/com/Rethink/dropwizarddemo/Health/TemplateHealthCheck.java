@@ -1,4 +1,4 @@
-package com.Rethink.dropwizarddemo.Dropwizard;
+package com.Rethink.dropwizarddemo.Health;
 
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.health.HealthCheck;

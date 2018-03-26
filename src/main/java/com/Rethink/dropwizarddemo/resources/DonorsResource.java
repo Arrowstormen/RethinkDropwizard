@@ -1,5 +1,6 @@
-package com.Rethink.dropwizarddemo;
+package com.Rethink.dropwizarddemo.resources;
 
+import com.Rethink.dropwizarddemo.DAO.DonorDAO;
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.annotation.Timed;
 
@@ -13,11 +14,9 @@ import java.util.List;
 public class DonorsResource {
 
     private DonorDAO dao;
-    private List<Donor> defaultList;
 
-    public DonorsResource(List<Donor> list, DonorDAO dao) {
+    public DonorsResource(DonorDAO dao) {
         this.dao = dao;
-        defaultList = list;
     }
 
     @GET
@@ -34,4 +33,9 @@ public class DonorsResource {
         dao.createDonor(donor);
     }
 
+    // Does not return http-success code
+    @DELETE
+    public void DeleteDonor(int i) {
+        dao.deleteDonor(i);
+    }
 }

@@ -3,10 +3,15 @@ package com.Rethink.dropwizarddemo.POJO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Donor {
+    @JsonProperty
     private int id;
+    @JsonProperty
     private String name;
+    @JsonProperty
     private String address;
+    @JsonProperty
     private String contactName;
+    @JsonProperty
     private int contactPhone;
 
     public Donor() {

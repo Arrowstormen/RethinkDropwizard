@@ -20,7 +20,7 @@
         </environment>
     </environments>
 
-    <!-- import mappers -->
+    <!-- let config know what mappers have been created -->
     <mappers>
         <mapper resource="mybatis/DonorMapper.xml"/>
     </mappers>
