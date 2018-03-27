@@ -4,18 +4,18 @@
 
 <mapper namespace="DonorMapper">
 
-    <insert id="insert" parameterType="com.Rethink.dropwizarddemo.POJO.Donor">
+    <insert id="create" parameterType="com.Rethink.dropwizarddemo.POJO.Donor">
         INSERT INTO Donor (NAME, ADDRESS, CONTACTNAME, CONTACTPHONE) VALUES
         (#{name},#{address},#{contactName},#{contactPhone});
 
     </insert>
 
-    <select id="selectDonor" parameterType="int" resultType="list">
-        SELECT * FROM Donor WHERE ID = #{id}
+    <select id="findAll" resultType="com.Rethink.dropwizarddemo.POJO.Donor">
+        SELECT * FROM Donor
     </select>
 
-    <select id="getAll" resultType="com.Rethink.dropwizarddemo.POJO.Donor">
-        SELECT * FROM Donor
+    <select id="find" resultType="com.Rethink.dropwizarddemo.POJO.Donor" parameterType="int">
+        SELECT * FROM Donor WHERE id = #{id}
     </select>
 
     <update id="update" parameterType="int">

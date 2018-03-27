@@ -13,40 +13,36 @@ import java.util.List;
 
 public class DonorDAO {
 
+    private SqlSessionFactory sqlSessionFactory;
 
-    // Constructor for dependency injection (sqlfactory)
-
-    public static void createDonor(Donor donor) {
+    public DonorDAO() {
         Reader reader = null;
         try {
             reader = Resources.getResourceAsReader("mybatis/config.xml");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+    }
+
+    public int createDonor(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
 
         //Insert donor data
-        session.insert("DonorMapper.insert", donor);
+        int resp = session.insert("DonorMapper.create", donor);
 
         System.out.println("record inserted successfully");
 
         session.commit();
         session.close();
+
+        return resp;
     }
 
     public List<Donor> getAllDonors() {
-        Reader reader = null;
-        try {
-            reader = Resources.getResourceAsReader("mybatis/config.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sqlSessionFactory.openSession();
 
-        List<Donor> donorList = session.selectList("DonorMapper.getAll");
+        List<Donor> donorList = session.selectList("DonorMapper.findAll");
 
         session.commit();
         session.close();
@@ -54,30 +50,26 @@ public class DonorDAO {
         return donorList;
     }
 
-    public List<Donor> deleteDonor(int i) {
-        Reader reader = null;
-        try {
-            reader = Resources.getResourceAsReader("mybatis/config.xml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+    public Donor find(int id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        List<Donor> donorList = session.selectList("DonorMapper.delete", i);
+        Donor donor = session.selectOne("DonorMapper.find", id);
 
         session.commit();
         session.close();
 
-        return donorList;
+        return donor;
     }
 
-    /*
+    public int deleteDonor(int i) {
+        SqlSession session = sqlSessionFactory.openSession();
 
-    GET single
-    Update
-    Delete
+        session.selectList("DonorMapper.delete", i);
 
-     */
+        session.commit();
+        session.close();
+
+        return i;
+    }
+
 }
