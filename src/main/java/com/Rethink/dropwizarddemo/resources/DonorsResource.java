@@ -14,6 +14,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class DonorsResource {
 
+    // Would like to ensure that correct httpresponsecodes are returned
+
+
     private DonorDAO dao;
 
     public DonorsResource(DonorDAO dao) {
@@ -23,7 +26,7 @@ public class DonorsResource {
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Donor> getAllDonors() {
+    public List<Donor> FindAll() {
         return dao.getAllDonors();
     }
 
@@ -31,21 +34,26 @@ public class DonorsResource {
     @Timed
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Donor getDonor(@PathParam("id") int i) {
+    public Donor Find(@PathParam("id") int i) {
         return dao.find(i);
-
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Timed
-    public void CreateDonor(@Valid Donor donor) {
+    public void Create(@Valid Donor donor) {
         Response.ok(dao.createDonor(donor)).build();
     }
 
-    // Does not return http-success code
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Timed
+    public void Update(@Valid Donor donor) {
+        Response.ok(dao.updateDonor(donor)).build();
+    }
+
     @DELETE
-    public void DeleteDonor(int id) {
+    public void Delete(int id) {
         Response.ok(dao.deleteDonor(id)).build();
     }
 }

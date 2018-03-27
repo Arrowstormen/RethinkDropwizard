@@ -25,15 +25,29 @@ public class Donor {
         this.contactPhone = contactPhone;
     }
 
+    public Donor(int id, String name, String address, String contactName, int contactPhone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.contactName = contactName;
+        this.contactPhone = contactPhone;
+    }
+
     @JsonProperty
     public long getId() {
         return id;
     }
 
     @JsonProperty
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @JsonProperty
     public String getName() {
         return name;
     }
+
 
     @JsonProperty
     public String getAddress() {
@@ -51,4 +65,9 @@ public class Donor {
     }
 
 
+    @Override
+    public String toString() {
+        return "id:" + id + ", " + "name:" + name + ", " + "address:" + address + ", " + "contactName:" + contactName
+                + ", " + "contactPhone:" + contactPhone;
+    }
 }

@@ -39,37 +39,57 @@ public class DonorDAO {
         return resp;
     }
 
-    public List<Donor> getAllDonors() {
+    public int updateDonor(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        List<Donor> donorList = session.selectList("DonorMapper.findAll");
+        //Insert donor data
+        int resp = session.update("DonorMapper.update", donor);
+
+        System.out.println("record updated successfully");
 
         session.commit();
         session.close();
 
-        return donorList;
+        return resp;
+    }
+
+    public List<Donor> getAllDonors() {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        List<Donor> resp = session.selectList("DonorMapper.findAll");
+
+        System.out.println("records gotten successfully");
+
+        session.commit();
+        session.close();
+
+        return resp;
     }
 
     public Donor find(int id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        Donor donor = session.selectOne("DonorMapper.find", id);
+        Donor resp = session.selectOne("DonorMapper.find", id);
+
+        System.out.println("record found successfully");
 
         session.commit();
         session.close();
 
-        return donor;
+        return resp;
     }
 
     public int deleteDonor(int i) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        session.selectList("DonorMapper.delete", i);
+        int resp = session.delete("DonorMapper.delete", i);
+
+        System.out.println("record deleted successfully");
 
         session.commit();
         session.close();
 
-        return i;
+        return resp;
     }
 
 }

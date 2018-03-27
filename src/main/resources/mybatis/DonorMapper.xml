@@ -18,8 +18,8 @@
         SELECT * FROM Donor WHERE id = #{id}
     </select>
 
-    <update id="update" parameterType="int">
-
+    <update id="update" parameterType="com.Rethink.dropwizarddemo.POJO.Donor">
+        UPDATE Donor SET NAME=#{name}, ADDRESS=#{address}, CONTACTNAME=#{contactName}, CONTACTPHONE=#{contactPhone}
     </update>
 
     <delete id="delete" parameterType="int">
