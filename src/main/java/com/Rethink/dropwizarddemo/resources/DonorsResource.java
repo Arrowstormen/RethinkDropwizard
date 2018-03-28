@@ -7,7 +7,6 @@ import com.codahale.metrics.annotation.Timed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/donors")
@@ -15,7 +14,7 @@ import java.util.List;
 public class DonorsResource {
 
     // Would like to ensure that correct httpresponsecodes are returned
-
+    // Jersey API
 
     private DonorDAO dao;
 
@@ -41,19 +40,21 @@ public class DonorsResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Timed
-    public void Create(@Valid Donor donor) {
-        Response.ok(dao.createDonor(donor)).build();
+    public Donor Create(@Valid Donor donor) {
+        dao.createDonor(donor);
+        return donor;
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Timed
     public void Update(@Valid Donor donor) {
-        Response.ok(dao.updateDonor(donor)).build();
+        dao.updateDonor(donor);
     }
 
+    @Path("/{id}")
     @DELETE
-    public void Delete(int id) {
-        Response.ok(dao.deleteDonor(id)).build();
+    public void Delete(@PathParam("id") int id) {
+        dao.deleteDonor(id);
     }
 }

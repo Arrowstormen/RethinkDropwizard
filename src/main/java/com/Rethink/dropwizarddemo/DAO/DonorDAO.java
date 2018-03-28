@@ -29,7 +29,7 @@ public class DonorDAO {
         SqlSession session = sqlSessionFactory.openSession();
 
         //Insert donor data
-        int resp = session.insert("DonorMapper.create", donor);
+        int resp = session.insert("com.Rethink.dropwizarddemo.Mappers.DonorMapper.create", donor);
 
         System.out.println("record inserted successfully");
 
@@ -39,24 +39,23 @@ public class DonorDAO {
         return resp;
     }
 
-    public int updateDonor(Donor donor) {
+    public void updateDonor(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
 
         //Insert donor data
-        int resp = session.update("DonorMapper.update", donor);
+        int resp = session.update("com.Rethink.dropwizarddemo.Mappers.DonorMapper.update", donor);
 
         System.out.println("record updated successfully");
 
         session.commit();
         session.close();
 
-        return resp;
     }
 
     public List<Donor> getAllDonors() {
         SqlSession session = sqlSessionFactory.openSession();
 
-        List<Donor> resp = session.selectList("DonorMapper.findAll");
+        List<Donor> resp = session.selectList("com.Rethink.dropwizarddemo.Mappers.DonorMapper.findAll");
 
         System.out.println("records gotten successfully");
 
@@ -69,7 +68,7 @@ public class DonorDAO {
     public Donor find(int id) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        Donor resp = session.selectOne("DonorMapper.find", id);
+        Donor resp = session.selectOne("com.Rethink.dropwizarddemo.Mappers.DonorMapper.find", id);
 
         System.out.println("record found successfully");
 
@@ -82,7 +81,7 @@ public class DonorDAO {
     public int deleteDonor(int i) {
         SqlSession session = sqlSessionFactory.openSession();
 
-        int resp = session.delete("DonorMapper.delete", i);
+        int resp = session.delete("com.Rethink.dropwizarddemo.Mappers.DonorMapper.delete", i);
 
         System.out.println("record deleted successfully");
 
