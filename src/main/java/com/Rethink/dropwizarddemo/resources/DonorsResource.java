@@ -7,6 +7,7 @@ import com.codahale.metrics.annotation.Timed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/donors")
@@ -26,22 +27,30 @@ public class DonorsResource {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     public List<Donor> FindAll() {
-        return dao.getAllDonors();
+        return dao.findAll();
     }
 
     @GET
     @Timed
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Donor Find(@PathParam("id") int i) {
-        return dao.find(i);
+    public Response Find(@PathParam("id") int i) {
+
+        Donor result = dao.find(i);
+
+        if (result != null) {
+            return Response.ok(result).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Timed
     public Donor Create(@Valid Donor donor) {
-        dao.createDonor(donor);
+        dao.create(donor);
         return donor;
     }
 
@@ -49,12 +58,14 @@ public class DonorsResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Timed
     public void Update(@Valid Donor donor) {
-        dao.updateDonor(donor);
+        dao.update(donor);
+
     }
 
     @Path("/{id}")
     @DELETE
     public void Delete(@PathParam("id") int id) {
-        dao.deleteDonor(id);
+        dao.delete(id);
+
     }
 }

@@ -19,6 +19,8 @@ import static org.mockito.Mockito.*;
 
 public class DonorResourceTest {
 
+    // These tests tests wether the correct HTTP-response code has been returned
+
     private static final DonorDAO dao = mock(DonorDAO.class);
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
@@ -38,6 +40,17 @@ public class DonorResourceTest {
         // we have to reset the mock after each test because of the
         // @ClassRule, or use a @Rule as mentioned below.
         reset(dao);
+    }
+
+    // CREATE
+    @Test
+    public void testCreate() {
+        Response output = resources.target("/donors")
+                .request()
+                .post(Entity.entity(donor, MediaType.APPLICATION_JSON));
+
+        assertEquals("Should return status 200", 200, output.getStatus());
+        assertNotNull("Should return donor", output.getEntity());
     }
 
     // READ
@@ -61,10 +74,16 @@ public class DonorResourceTest {
         assertEquals("Should return status 404", 404, output.getStatus());
     }
 
+    @Test
+    public void testFetchByFail_404() {
+        Response output = resources.target("/donors/2").request().get();
+        assertEquals("Should return status 404", 404, output.getStatus());
+    }
+
     // UPDATE
     @Test
     public void testUpdate() {
-        Donor newDonor = new Donor();
+        when(dao.update(donor)).thenReturn(1);
         Response output = resources.target("/donors")
                 .request()
                 .put(Entity.entity(donor, MediaType.APPLICATION_JSON));
@@ -78,14 +97,4 @@ public class DonorResourceTest {
         assertEquals("Should return status 204", 204, output.getStatus());
     }
 
-    // CREATE
-    @Test
-    public void testCreate() {
-        Response output = resources.target("/donors")
-                .request()
-                .post(Entity.entity(donor, MediaType.APPLICATION_JSON));
-
-        assertEquals("Should return status 200", 200, output.getStatus());
-        assertNotNull("Should return donor", output.getEntity());
-    }
 }
