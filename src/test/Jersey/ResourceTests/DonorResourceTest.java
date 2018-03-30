@@ -1,8 +1,8 @@
 package Jersey.ResourceTests;
 
-import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.DAO.DonorDAOImpl;
+import com.Rethink.dropwizarddemo.DropwizardResources.DonorsResourceImpl;
 import com.Rethink.dropwizarddemo.POJO.Donor;
-import com.Rethink.dropwizarddemo.resources.DonorsResource;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -19,10 +19,12 @@ import static org.mockito.Mockito.*;
 
 public class DonorResourceTest {
 
-    private static final DonorDAO dao = mock(DonorDAO.class);
+    // These tests tests wether the correct HTTP-response code has been returned
+
+    private static final DonorDAOImpl dao = mock(DonorDAOImpl.class);
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new DonorsResource(dao))
+            .addResource(new DonorsResourceImpl(dao))
             .build();
 
     private final Donor donor = new Donor(1, "n", "a", "cn", 123);
@@ -38,6 +40,17 @@ public class DonorResourceTest {
         // we have to reset the mock after each test because of the
         // @ClassRule, or use a @Rule as mentioned below.
         reset(dao);
+    }
+
+    // CREATE
+    @Test
+    public void testCreate() {
+        Response output = resources.target("/donors")
+                .request()
+                .post(Entity.entity(donor, MediaType.APPLICATION_JSON));
+
+        assertEquals("Should return status 200", 200, output.getStatus());
+        assertNotNull("Should return donor", output.getEntity());
     }
 
     // READ
@@ -61,10 +74,16 @@ public class DonorResourceTest {
         assertEquals("Should return status 404", 404, output.getStatus());
     }
 
+    @Test
+    public void testFetchByFail_404() {
+        Response output = resources.target("/donors/2").request().get();
+        assertEquals("Should return status 404", 404, output.getStatus());
+    }
+
     // UPDATE
     @Test
     public void testUpdate() {
-        Donor newDonor = new Donor();
+        when(dao.update(donor)).thenReturn(1);
         Response output = resources.target("/donors")
                 .request()
                 .put(Entity.entity(donor, MediaType.APPLICATION_JSON));
@@ -78,14 +97,4 @@ public class DonorResourceTest {
         assertEquals("Should return status 204", 204, output.getStatus());
     }
 
-    // CREATE
-    @Test
-    public void testCreate() {
-        Response output = resources.target("/donors")
-                .request()
-                .post(Entity.entity(donor, MediaType.APPLICATION_JSON));
-
-        assertEquals("Should return status 200", 200, output.getStatus());
-        assertNotNull("Should return donor", output.getEntity());
-    }
 }
