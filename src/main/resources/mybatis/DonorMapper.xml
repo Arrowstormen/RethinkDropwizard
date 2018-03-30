@@ -1,13 +1,14 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.Rethink.dropwizarddemo.Mappers.DonorMapper">
 
-    <insert id="create" parameterType="com.Rethink.dropwizarddemo.POJO.Donor">
+    <insert id="create" parameterType="com.Rethink.dropwizarddemo.POJO.Donor" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
         INSERT INTO Donor (NAME, ADDRESS, CONTACTNAME, CONTACTPHONE) VALUES
         (#{name},#{address},#{contactName},#{contactPhone});
-
     </insert>
 
     <select id="findAll" resultType="com.Rethink.dropwizarddemo.POJO.Donor">
@@ -19,7 +20,8 @@
     </select>
 
     <update id="update" parameterType="com.Rethink.dropwizarddemo.POJO.Donor">
-        UPDATE Donor SET NAME=#{name}, ADDRESS=#{address}, CONTACTNAME=#{contactName}, CONTACTPHONE=#{contactPhone};
+        UPDATE Donor SET NAME=#{name}, ADDRESS=#{address}, CONTACTNAME=#{contactName}, CONTACTPHONE=#{contactPhone}
+        WHERE id = #{id};
     </update>
 
     <delete id="delete" parameterType="int">

@@ -1,16 +1,25 @@
 package com.Rethink.dropwizarddemo.POJO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class Donor {
+
     @JsonProperty
     private int id;
+
+    @NotEmpty
     @JsonProperty
     private String name;
+
+    @NotEmpty
     @JsonProperty
     private String address;
+
+    @NotEmpty
     @JsonProperty
     private String contactName;
+
     @JsonProperty
     private int contactPhone;
 
@@ -48,7 +57,6 @@ public class Donor {
         return name;
     }
 
-
     @JsonProperty
     public String getAddress() {
         return address;
@@ -63,7 +71,6 @@ public class Donor {
     public int getContactPhone() {
         return contactPhone;
     }
-
 
     @Override
     public String toString() {

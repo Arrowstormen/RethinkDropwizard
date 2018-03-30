@@ -1,19 +1,21 @@
 package com.Rethink.dropwizarddemo.Mappers;
 
 import com.Rethink.dropwizarddemo.POJO.Donor;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface DonorMapper {
 
-    void create(Donor d);
+    int create(Donor d);
 
-    List<Donor> findall();
+    List<Donor> findAll();
 
     Donor find(int id);
 
-    void update(Donor d);
+    int update(Donor d);
 
-    void delete(int i);
+    int delete(int i);
 
 }
