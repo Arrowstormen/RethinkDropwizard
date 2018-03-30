@@ -1,6 +1,5 @@
 package com.Rethink.dropwizarddemo.DAO;
 
-import com.Rethink.dropwizarddemo.Mappers.DonorMapper;
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -20,43 +19,44 @@ public class DonorDAO {
         Reader reader = null;
         try {
             reader = Resources.getResourceAsReader("mybatis/config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
-    public int create(Donor donor) {
+    public int createDonor(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
-        int result = mapper.create(donor);
+        //Insert donor data
+        int resp = session.insert("com.Rethink.dropwizarddemo.Mappers.DonorMapper.create", donor);
+
         System.out.println("record inserted successfully");
 
         session.commit();
         session.close();
-        return result;
+
+        return resp;
     }
 
-    public int update(Donor donor) {
+    public void updateDonor(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         //Insert donor data
-        int rowsAffected = mapper.update(donor);
+        int resp = session.update("com.Rethink.dropwizarddemo.Mappers.DonorMapper.update", donor);
+
         System.out.println("record updated successfully");
 
         session.commit();
         session.close();
-        return rowsAffected;
+
     }
 
-    public List<Donor> findAll() {
+    public List<Donor> getAllDonors() {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
-        List<Donor> resp = mapper.findAll();
+        List<Donor> resp = session.selectList("com.Rethink.dropwizarddemo.Mappers.DonorMapper.findAll");
+
         System.out.println("records gotten successfully");
 
         session.commit();
@@ -67,9 +67,9 @@ public class DonorDAO {
 
     public Donor find(int id) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
-        Donor resp = mapper.find(id);
+        Donor resp = session.selectOne("com.Rethink.dropwizarddemo.Mappers.DonorMapper.find", id);
+
         System.out.println("record found successfully");
 
         session.commit();
@@ -78,18 +78,17 @@ public class DonorDAO {
         return resp;
     }
 
-    public int delete(int i) {
+    public int deleteDonor(int i) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
-        int rowsAffected = mapper.delete(i);
+        int resp = session.delete("com.Rethink.dropwizarddemo.Mappers.DonorMapper.delete", i);
+
         System.out.println("record deleted successfully");
 
         session.commit();
         session.close();
 
-        return rowsAffected;
-
+        return resp;
     }
 
 }
