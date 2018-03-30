@@ -1,7 +1,0 @@
-com/Rethink/dropwizarddemo/POJO/Donor.class
-com/Rethink/dropwizarddemo/Mappers/DonorMapper.class
-com/Rethink/dropwizarddemo/DAO/DonorDAO.class
-com/Rethink/dropwizarddemo/Health/TemplateHealthCheck.class
-com/Rethink/dropwizarddemo/DropwizardConfiguration.class
-com/Rethink/dropwizarddemo/DropwizardApplication.class
-com/Rethink/dropwizarddemo/resources/DonorsResource.class

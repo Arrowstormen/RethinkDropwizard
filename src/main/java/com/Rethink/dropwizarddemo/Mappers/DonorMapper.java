@@ -17,5 +17,4 @@ public interface DonorMapper {
     int update(Donor d);
 
     int delete(int i);
-
 }

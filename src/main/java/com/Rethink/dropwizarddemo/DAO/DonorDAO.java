@@ -2,6 +2,7 @@ package com.Rethink.dropwizarddemo.DAO;
 
 import com.Rethink.dropwizarddemo.Mappers.DonorMapper;
 import com.Rethink.dropwizarddemo.POJO.Donor;
+import com.google.inject.Inject;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -12,24 +13,33 @@ import java.io.Reader;
 import java.util.List;
 
 
-public class DonorDAO {
+public class DonorDAO implements DAO {
 
     private SqlSessionFactory sqlSessionFactory;
 
-    public DonorDAO() {
+    private DonorMapper mapper;
+
+    @Inject
+    public DonorDAO(DonorMapper mapper) {
+        this.mapper = mapper;
         Reader reader = null;
+
         try {
             reader = Resources.getResourceAsReader("mybatis/config.xml");
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void setMapper(DonorMapper mapper) {
+        this.mapper = mapper;
+    }
+
     public int create(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         int result = mapper.create(donor);
         System.out.println("record inserted successfully");
@@ -41,7 +51,6 @@ public class DonorDAO {
 
     public int update(Donor donor) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         //Insert donor data
         int rowsAffected = mapper.update(donor);
@@ -54,7 +63,6 @@ public class DonorDAO {
 
     public List<Donor> findAll() {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         List<Donor> resp = mapper.findAll();
         System.out.println("records gotten successfully");
@@ -67,7 +75,6 @@ public class DonorDAO {
 
     public Donor find(int id) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         Donor resp = mapper.find(id);
         System.out.println("record found successfully");
@@ -79,7 +86,6 @@ public class DonorDAO {
 
     public int delete(int i) {
         SqlSession session = sqlSessionFactory.openSession();
-        DonorMapper mapper = session.getMapper(DonorMapper.class);
 
         int rowsAffected = mapper.delete(i);
         System.out.println("record deleted successfully");
@@ -88,11 +94,6 @@ public class DonorDAO {
         session.close();
         return rowsAffected;
 
-<<<<<<< Updated upstream
-        return rowsAffected;
-
-=======
->>>>>>> Stashed changes
     }
 
 }

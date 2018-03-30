@@ -3,6 +3,8 @@ package com.Rethink.dropwizarddemo.resources;
 import com.Rethink.dropwizarddemo.DAO.DonorDAO;
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.annotation.Timed;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -17,8 +19,11 @@ public class DonorsResource {
     // Would like to ensure that correct httpresponsecodes are returned
     // Jersey API
 
+    @Inject
+    @Named("DonorDAO")
     private DonorDAO dao;
 
+    // For testing
     public DonorsResource(DonorDAO dao) {
         this.dao = dao;
     }
