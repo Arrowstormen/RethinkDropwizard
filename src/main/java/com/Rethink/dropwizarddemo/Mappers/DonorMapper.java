@@ -9,12 +9,9 @@ import java.util.List;
 public interface DonorMapper {
 
     int create(Donor d);
-
     List<Donor> findAll();
-
     Donor find(int id);
-
     int update(Donor d);
-
     int delete(int i);
+    
 }

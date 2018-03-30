@@ -1,10 +1,9 @@
-package com.Rethink.dropwizarddemo.resources;
+package com.Rethink.dropwizarddemo.DropwizardResources;
 
-import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.DAO.DonorDAOImpl;
 import com.Rethink.dropwizarddemo.POJO.Donor;
 import com.codahale.metrics.annotation.Timed;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -14,17 +13,15 @@ import java.util.List;
 
 @Path("/donors")
 @Produces(MediaType.APPLICATION_JSON)
-public class DonorsResource {
+public class DonorsResourceImpl implements DonorsResource {
 
     // Would like to ensure that correct httpresponsecodes are returned
     // Jersey API
 
-    @Inject
-    @Named("DonorDAO")
-    private DonorDAO dao;
+    private DonorDAOImpl dao;
 
-    // For testing
-    public DonorsResource(DonorDAO dao) {
+    @Inject
+    public DonorsResourceImpl(DonorDAOImpl dao) {
         this.dao = dao;
     }
 

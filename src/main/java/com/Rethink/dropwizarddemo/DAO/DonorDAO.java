@@ -1,99 +1,17 @@
 package com.Rethink.dropwizarddemo.DAO;
 
-import com.Rethink.dropwizarddemo.Mappers.DonorMapper;
 import com.Rethink.dropwizarddemo.POJO.Donor;
-import com.google.inject.Inject;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 
+public interface DonorDAO {
+    int create(Donor donor);
 
-public class DonorDAO implements DAO {
+    int update(Donor donor);
 
-    private SqlSessionFactory sqlSessionFactory;
+    List<Donor> findAll();
 
-    private DonorMapper mapper;
+    Donor find(int id);
 
-    @Inject
-    public DonorDAO(DonorMapper mapper) {
-        this.mapper = mapper;
-        Reader reader = null;
-
-        try {
-            reader = Resources.getResourceAsReader("mybatis/config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setMapper(DonorMapper mapper) {
-        this.mapper = mapper;
-    }
-
-    public int create(Donor donor) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        int result = mapper.create(donor);
-        System.out.println("record inserted successfully");
-
-        session.commit();
-        session.close();
-        return result;
-    }
-
-    public int update(Donor donor) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        //Insert donor data
-        int rowsAffected = mapper.update(donor);
-        System.out.println("record updated successfully");
-
-        session.commit();
-        session.close();
-        return rowsAffected;
-    }
-
-    public List<Donor> findAll() {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        List<Donor> resp = mapper.findAll();
-        System.out.println("records gotten successfully");
-
-        session.commit();
-        session.close();
-
-        return resp;
-    }
-
-    public Donor find(int id) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        Donor resp = mapper.find(id);
-        System.out.println("record found successfully");
-
-        session.commit();
-        session.close();
-        return resp;
-    }
-
-    public int delete(int i) {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        int rowsAffected = mapper.delete(i);
-        System.out.println("record deleted successfully");
-
-        session.commit();
-        session.close();
-        return rowsAffected;
-
-    }
-
+    int delete(int i);
 }

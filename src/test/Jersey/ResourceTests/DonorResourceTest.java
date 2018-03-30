@@ -1,8 +1,8 @@
 package Jersey.ResourceTests;
 
-import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.DAO.DonorDAOImpl;
+import com.Rethink.dropwizarddemo.DropwizardResources.DonorsResourceImpl;
 import com.Rethink.dropwizarddemo.POJO.Donor;
-import com.Rethink.dropwizarddemo.resources.DonorsResource;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -21,10 +21,10 @@ public class DonorResourceTest {
 
     // These tests tests wether the correct HTTP-response code has been returned
 
-    private static final DonorDAO dao = mock(DonorDAO.class);
+    private static final DonorDAOImpl dao = mock(DonorDAOImpl.class);
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new DonorsResource(dao))
+            .addResource(new DonorsResourceImpl(dao))
             .build();
 
     private final Donor donor = new Donor(1, "n", "a", "cn", 123);

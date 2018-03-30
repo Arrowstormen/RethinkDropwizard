@@ -1,8 +1,8 @@
 package MyBatis;
 
-import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.DAO.DonorDAOImpl;
+import com.Rethink.dropwizarddemo.DropwizardResources.DonorsResourceImpl;
 import com.Rethink.dropwizarddemo.POJO.Donor;
-import com.Rethink.dropwizarddemo.resources.DonorsResource;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -19,16 +19,16 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class DonorDAOTest {
+public class DonorDAOImplTest {
 
-    // These tests wether the correct objects are returned from the DOA (and hence the mappers that DAO uses).
+    // These tests wether the correct objects are returned from the DOA (and hence the mappers that DonorDAO uses).
 
     // Mock database connection
-    private static final DonorDAO dao = mock(DonorDAO.class);
+    private static final DonorDAOImpl dao = mock(DonorDAOImpl.class);
 
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new DonorsResource(dao))
+            .addResource(new DonorsResourceImpl(dao))
             .build();
 
     private static SqlSessionFactory sqlSessionFactory;

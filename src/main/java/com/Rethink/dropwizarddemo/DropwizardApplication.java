@@ -1,9 +1,8 @@
 package com.Rethink.dropwizarddemo;
 
-import com.Rethink.dropwizarddemo.DAO.DonorDAO;
+import com.Rethink.dropwizarddemo.DropwizardResources.DonorsResourceImpl;
 import com.Rethink.dropwizarddemo.Guice.BasicModule;
 import com.Rethink.dropwizarddemo.Health.TemplateHealthCheck;
-import com.Rethink.dropwizarddemo.resources.DonorsResource;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.dropwizard.Application;
@@ -26,21 +25,23 @@ public class DropwizardApplication extends Application<DropwizardConfiguration> 
     @Override
     public void initialize(Bootstrap<DropwizardConfiguration> bootstrap) {
         // nothing to do yet
-
     }
 
+    // Dropwizard entry point
     @Override
     public void run(DropwizardConfiguration configuration, Environment environment) {
         // Healthchecks
         final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getDefaultList());
         environment.healthChecks().register("defaultList", healthCheck);
 
-        // GUICE dependency injection
+        // Datasource properties, used below in XMLMyBatisModule
         final Properties props = new Properties();
         props.setProperty("JDBC.username", "postgres");
         props.setProperty("JDBC.password", "blank");
 
+        // GUICE
         Injector injector = Guice.createInjector(
+                // Load MyBatis config
                 new XMLMyBatisModule() {
                     @Override
                     protected void initialize() {
@@ -49,17 +50,14 @@ public class DropwizardApplication extends Application<DropwizardConfiguration> 
                         addProperties(props);
                     }
                 },
+                // Contains dependency injection bindings
                 new BasicModule()
         );
 
-        DonorDAO donorDAO = injector.getInstance(DonorDAO.class);
+        // Instanciate DonorResource
+        DonorsResourceImpl donorResource = injector.getInstance(DonorsResourceImpl.class);
 
-        // create Resouces
-        final DonorsResource donorResource = new DonorsResource(
-                donorDAO
-        );
-
-        // add resources
+        // add DropwizardResources
         environment.jersey().register(donorResource);
 
     }
