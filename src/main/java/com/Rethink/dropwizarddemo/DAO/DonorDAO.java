@@ -74,7 +74,6 @@ public class DonorDAO {
 
         session.commit();
         session.close();
-
         return resp;
     }
 
@@ -87,9 +86,13 @@ public class DonorDAO {
 
         session.commit();
         session.close();
-
         return rowsAffected;
 
+<<<<<<< Updated upstream
+        return rowsAffected;
+
+=======
+>>>>>>> Stashed changes
     }
 
 }
